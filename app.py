@@ -588,7 +588,7 @@ def classify_query(query):
     query_words_without_stopwords = [word for word in query_lower if word not in stop_words]
     print(query_words_without_stopwords)
 
-    if 'hi' in query_words_without_stopwords:
+    if len(query_words_without_stopwords)==1 and 'hi' in query_words_without_stopwords:
         return "General Chat", 1
     
     book_title_to_elements = {
@@ -609,10 +609,7 @@ def classify_query(query):
         for key, values in elements.items():
             for value in values:
                 if any(word in value.lower() for word in query_words_without_stopwords):
-                    if "hi" or "hey" in query_words_without_stopwords:
-                        return "General Chat",1
-                    else:
-                        return book_title, 2  # Returning book title and numeric value
+                    return book_title, 2  # Returning book title and numeric value
 
     return "General Chat",1
 
@@ -767,4 +764,4 @@ def process_query2():
         return jsonify({'ANSWER': ""})
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0',port =5000,debug=True)
+    app.run(port=5000,debug=True)
