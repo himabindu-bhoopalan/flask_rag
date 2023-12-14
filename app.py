@@ -576,6 +576,7 @@ oliver_twist_elements = {
 }
 
 def preprocess_query(query):
+     
     query_cleaned = re.sub(r'[^a-zA-Z0-9\s]', ' ', query)
     query_lower = query_cleaned.lower().split()
     query_words_without_stopwords = [word for word in query_lower if word not in stop_words]
@@ -585,7 +586,10 @@ def classify_query(query):
     query_lower = preprocess_query(query)
 
     query_words_without_stopwords = [word for word in query_lower if word not in stop_words]
-    # print(query_words_without_stopwords)
+    print(query_words_without_stopwords)
+
+    if 'hi' in query_words_without_stopwords:
+        return "General Chat", 1
     
     book_title_to_elements = {
         "Adventures of Tom Sawyer": tom_sawyer_elements,
@@ -605,7 +609,10 @@ def classify_query(query):
         for key, values in elements.items():
             for value in values:
                 if any(word in value.lower() for word in query_words_without_stopwords):
-                    return book_title, 2  # Returning book title and numeric value
+                    if "hi" or "hey" in query_words_without_stopwords:
+                        return "General Chat",1
+                    else:
+                        return book_title, 2  # Returning book title and numeric value
 
     return "General Chat",1
 
